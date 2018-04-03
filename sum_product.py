@@ -240,26 +240,6 @@ class SumProductAlgorithm:
         return torch.mm(message, variable_node_matrix)
 
 
-class MinSumAlgorithm(SumProductAlgorithm):
-
-    def __init__(self):
-        super(SumProductAlgorithm, self).__init__()
-
-    def check_node_process(self, message):
-        indices_matrix = None  # TODO
-        min_messages = torch.Tensor(
-            [torch.index_select(message.abs_(), 1, indices).min()
-             for indices in indices_matrix]
-        )
-
-        is_negative = (-torch.sign_(message) + 1) / 2
-        num_of_negative_values = torch.mm(is_negative,
-                                          self._cm.check_node_matrix)
-        sign = -2 * num_of_negative_values.fmod(2) + 1
-
-        return sign * min_messages
-
-
 class MessageNormalizer(nn.Module):
 
     def __init__(self, in_features, init_mean=1.0, init_stddev=0.01):
